@@ -17,9 +17,9 @@ Seeded demo accounts (after `npm run db:seed`):
 
 | Role | Email | Password |
 |---|---|---|
-| Admin | admin@agrolink.com | Admin123! |
-| Farmer | farmer@agrolink.com | Farmer123! |
-| Buyer | buyer@agrolink.com | Buyer123! |
+| Admin | *****@agrolink.com | ******** |
+| Farmer | *****@agrolink.com | ******** |
+| Buyer | *****@agrolink.com | ******** |
 
 ## Project structure
 
