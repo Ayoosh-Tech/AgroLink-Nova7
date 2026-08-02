@@ -1,7 +1,8 @@
 /* ==========================================================================
    Design tokens
    ========================================================================== */
-:root {
+
+   :root {
   --primary: #2E7D32;
   --primary-dark: #24632A;
   --primary-light: #E8F5E9;
@@ -32,6 +33,30 @@
 
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;
+  /* Theme variables */
+  --bg: #FFFFFF;
+  --text: #222222;
+  --card: #f8f8f8;
+}
+
+body[data-theme="dark"] {
+  --bg: #121212;
+  --surface: #1E1E1E;
+  --surface-alt: #2A2A2A;
+
+  --text: #F5F5F5;
+  --text-muted: #BDBDBD;
+  --border: #3A3A3A;
+
+  --card: #1E1E1E;
+}
+body[data-theme="dark"] .hero {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+body[data-theme="dark"] .category-chip {
+  color: var(--text);
 }
 
 * {
@@ -172,4 +197,9 @@ ul {
 
 .text-center {
   text-align: center;
+}
+.card,
+.modal,
+.table-wrap{
+  background: var(--surface);
 }

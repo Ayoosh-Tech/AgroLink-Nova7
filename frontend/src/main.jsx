@@ -8,13 +8,16 @@ import "react-toastify/dist/ReactToastify.css";
 import "./styles/main.css";
 import "./styles/components.css";
 import "./styles/responsive.css";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

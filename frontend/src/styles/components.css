@@ -620,7 +620,7 @@ tr:last-child td {
 
 .hero-eyebrow {
   display: inline-block;
-  background: #fff;
+  background: var(--surface);
   border: 1px solid var(--border);
   color: var(--primary);
   font-weight: 700;
@@ -812,3 +812,19 @@ tr:last-child td {
   background: var(--primary-light);
   color: var(--primary);
 }
+/* ==========================================================================
+   Theme toggle button
+   ========================================================================== */
+   .theme-toggle{
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text);
+    margin-right: 6px;
+    margin-bottom: -5px;
+    transition: color 0.2s ease;
+   }
+   .theme-toggle:hover {
+     transform: scale(1.1);
+   }

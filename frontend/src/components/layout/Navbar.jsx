@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Sprout, ShoppingCart, Menu, X, User, LogOut, LayoutDashboard } from "lucide-react";
+import { Sprout, ShoppingCart, Menu, X, User, LogOut, LayoutDashboard, Moon, Sun } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useCart } from "../../hooks/useCart.js";
+import { useTheme } from "../../context/ThemeContext.jsx";
 
 const dashboardPathByRole = { farmer: "/farmer/dashboard", buyer: "/buyer/dashboard", admin: "/admin/dashboard" };
 
 export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const { totalItems } = useCart();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,6 +52,7 @@ export default function Navbar() {
           {user?.role !== "farmer" && user?.role !== "admin" && (
             <button className="btn btn-ghost btn-icon" onClick={() => navigate("/cart")} aria-label="Cart" style={{ position: "relative" }}>
               <ShoppingCart size={20} />
+              
               {totalItems > 0 && (
                 <span
                   style={{
@@ -73,6 +76,10 @@ export default function Navbar() {
               )}
             </button>
           )}
+
+        <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+              {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
+            </button>
 
           {isAuthenticated ? (
             <div style={{ position: "relative" }}>
