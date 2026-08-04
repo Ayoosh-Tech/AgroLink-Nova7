@@ -31,6 +31,7 @@ img{
   .dashboard-layout {
     grid-template-columns: 190px 1fr;
   }
+
 }
 
 @media (max-width: 860px) {
