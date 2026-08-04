@@ -39,22 +39,7 @@ export default function Navbar() {
           AgroLink
         </NavLink>
 
-        <nav className={`navbar-links ${mobileOpen ? "mobile-open" : ""}`}>
-          <NavLink to="/" end className="navbar-link" onClick={() => setMobileOpen(false)}>
-            {t("nav.home")}
-          </NavLink>
-          <NavLink to="/products" className="navbar-link" onClick={() => setMobileOpen(false)}>
-            {t("nav.products")}
-          </NavLink>
-          <NavLink to="/about" className="navbar-link" onClick={() => setMobileOpen(false)}>
-            {t("nav.about")}
-          </NavLink>
-          {isAuthenticated && (
-            <NavLink to={dashboardPathByRole[user.role]} className="navbar-link" onClick={() => setMobileOpen(false)}>
-              {t("nav.dashboard")}
-            </NavLink>
-          )}
-        </nav>
+        
 
         <div className="navbar-actions">
           {user?.role !== "farmer" && user?.role !== "admin" && (
@@ -150,6 +135,49 @@ export default function Navbar() {
           </button>
         </div>
       </div>
+
+      <nav className={`navbar-links ${mobileOpen ? "mobile-open" : ""}`}>
+          <NavLink to="/" end className="navbar-link" onClick={() => setMobileOpen(false)}>
+            {t("nav.home")}
+          </NavLink>
+          <NavLink to="/products" className="navbar-link" onClick={() => setMobileOpen(false)}>
+            {t("nav.products")}
+          </NavLink>
+          <NavLink to="/about" className="navbar-link" onClick={() => setMobileOpen(false)}>
+            {t("nav.about")}
+          </NavLink>
+          {isAuthenticated && (
+            <NavLink to={dashboardPathByRole[user.role]} className="navbar-link" onClick={() => setMobileOpen(false)}>
+              {t("nav.dashboard")}
+            </NavLink>
+          )}
+
+          
+{!isAuthenticated && (
+  <>
+    <button
+      className="btn btn-ghost mobile-menu-btn"
+      onClick={() => {
+        navigate("/login");
+        setMobileOpen(false);
+      }}
+    >
+      {t("nav.login")}
+    </button>
+
+    <button
+      className="btn btn-primary mobile-menu-btn"
+      onClick={() => {
+        navigate("/register");
+        setMobileOpen(false);
+      }}
+    >
+      {t("nav.signup")}
+    </button>
+  </>
+)}
+
+        </nav>
     </header>
   );
 }
