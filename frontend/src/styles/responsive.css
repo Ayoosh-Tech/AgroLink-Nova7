@@ -1,3 +1,28 @@
+.table-wrap{
+  overflow-x: auto;
+}
+
+table{
+  min-width: 700px;
+}
+
+img{
+  max-width: 100%;
+  height: auto;
+}
+
+.form-input,
+.form-select,
+.form-textarea{
+  width: 100%;
+}
+
+.modal{
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
 @media (max-width: 1024px) {
   .grid-4 {
     grid-template-columns: repeat(2, 1fr);
@@ -85,7 +110,8 @@
 @media (max-width: 520px) {
   .grid-3,
   .grid-4 {
-    grid-template-columns: repeat(2, 1fr);
+    /*grid-template-columns: repeat(2, 1fr);*/
+    grid-template-columns: 1fr;
   }
 
   .container {

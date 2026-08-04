@@ -1,15 +1,14 @@
 import { useAuth } from "../../hooks/useAuth.js";
 import { initials } from "../../utils/formatters.js";
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext.jsx";
+import { useTranslation } from "react-i18next";
 
 // A generic dashboard shell: left sidebar with a user summary + tab nav,
 // right side renders whatever the page passes as children. Each dashboard
 // page (Buyer/Farmer/Admin) owns its own tab state and just tells this
 // component which tabs exist and which one is active.
 export default function DashboardLayout({ navItems, activeKey, onChange, children }) {
-  const { theme, toggleTheme } = useTheme();
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="container">
@@ -19,7 +18,7 @@ export default function DashboardLayout({ navItems, activeKey, onChange, childre
             <div className="avatar">{initials(user?.name)}</div>
             <div style={{ fontWeight: 700, fontSize: 14.5 }}>{user?.name}</div>
             <div className="text-muted" style={{ fontSize: 12.5, textTransform: "capitalize" }}>
-              {user?.role} account
+              {t("dashboard.accountLabel", { role: t(`roles.${user?.role}`, user?.role) })}
             </div>
             {/*<button className="btn btn-ghost btn-sm" onClick={toggleTheme} style={{ marginTop: "8px", width: "70%" }}>
               {theme === "light" ? <Moon size={18} /> : <Sun size={18} />}

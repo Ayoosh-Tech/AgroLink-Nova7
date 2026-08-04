@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 import { productSchema } from "../../utils/validators.js";
 import { CATEGORIES } from "../../utils/formatters.js";
 import { useState } from "react";
 import axios from "axios";
 
-export default function ProductForm({ initialValues, onSubmit, submitLabel = "Save listing" }) {
+export default function ProductForm({ initialValues, onSubmit, submitLabel }) {
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(null);
   const {
     register,

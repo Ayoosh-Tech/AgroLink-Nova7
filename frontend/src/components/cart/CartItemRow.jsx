@@ -1,9 +1,11 @@
 import { Leaf, Minus, Plus, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { formatPrice } from "../../utils/formatters.js";
 import { useCart } from "../../hooks/useCart.js";
 
 export default function CartItemRow({ item }) {
   const { updateQuantity, removeFromCart } = useCart();
+  const { t } = useTranslation();
 
   return (
     <div className="cart-item">
@@ -13,7 +15,7 @@ export default function CartItemRow({ item }) {
       <div style={{ gridArea: "name" }}>
         <div style={{ fontWeight: 700, fontSize: 14.5 }}>{item.name}</div>
         <div className="text-muted" style={{ fontSize: 12.5 }}>
-          {formatPrice(item.price)} / {item.unit} · sold by {item.farmerName || "a farmer"}
+          {formatPrice(item.price)} / {item.unit} · {t("cartItem.soldBy")} {item.farmerName || t("cartItem.aFarmer")}
         </div>
       </div>
       <div className="qty-stepper" style={{ gridArea: "qty" }}>

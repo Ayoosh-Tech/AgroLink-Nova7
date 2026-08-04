@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { productService } from "../services/productService.js";
 import ProductFilters from "../components/product/ProductFilters.jsx";
 import ProductCard from "../components/product/ProductCard.jsx";
@@ -7,6 +8,7 @@ import Loader from "../components/common/Loader.jsx";
 import EmptyState from "../components/common/EmptyState.jsx";
 
 export default function Products() {
+  const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
@@ -55,8 +57,8 @@ export default function Products() {
   return (
     <div className="container">
       <div className="page-header">
-        <h1>Browse Products</h1>
-        <p>Fresh produce, listed directly by farmers across Nigeria.</p>
+        <h1>{t("products.title")}</h1>
+        <p>{t("products.subtitle")}</p>
       </div>
 
       <ProductFilters filters={filters} onChange={handleFiltersChange} />
@@ -64,7 +66,7 @@ export default function Products() {
       {loading ? (
         <Loader />
       ) : products.length === 0 ? (
-        <EmptyState title="No products found" message="Try adjusting your filters or search term." />
+        <EmptyState title={t("common.noProductsFound")} message={t("common.tryAdjustingFilters")} />
       ) : (
         <>
           <div className="grid grid-3">
@@ -76,13 +78,13 @@ export default function Products() {
           {totalPages > 1 && (
             <div className="flex" style={{ justifyContent: "center", gap: 8, marginTop: 28 }}>
               <button className="btn btn-outline btn-sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-                Previous
+                {t("common.previous")}
               </button>
               <span className="text-muted" style={{ fontSize: 13.5, alignSelf: "center" }}>
-                Page {page} of {totalPages}
+                {t("common.page")} {page} {t("common.of")} {totalPages}
               </span>
               <button className="btn btn-outline btn-sm" disabled={page >= totalPages} onClick={() => setPage((p) => p + 1)}>
-                Next
+                {t("common.next")}
               </button>
             </div>
           )}

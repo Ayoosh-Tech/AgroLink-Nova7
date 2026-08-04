@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import { Package, ClipboardList, Plus, Pencil, Trash2 } from "lucide-react";
 import { productService } from "../services/productService.js";
 import { orderService } from "../services/orderService.js";
@@ -12,21 +13,24 @@ import Modal from "../components/common/Modal.jsx";
 import ProductForm from "../components/product/ProductForm.jsx";
 
 const navItems = [
-  { key: "listings", label: "My Listings", icon: Package },
-  { key: "orders", label: "Orders", icon: ClipboardList },
+  { key: "listings", labelKey: "dashboard.farmer.navListings", icon: Package },
+  { key: "orders", labelKey: "dashboard.farmer.navOrders", icon: ClipboardList },
 ];
 
 export default function FarmerDashboard() {
+  const { t } = useTranslation();
   const [tab, setTab] = useState("listings");
+  const nav = navItems.map((item) => ({ ...item, label: t(item.labelKey) }));
 
   return (
-    <DashboardLayout navItems={navItems} activeKey={tab} onChange={setTab}>
+    <DashboardLayout navItems={nav} activeKey={tab} onChange={setTab}>
       {tab === "listings" ? <ListingsTab /> : <OrdersTab />}
     </DashboardLayout>
   );
 }
 
 function ListingsTab() {
+  const { t } = useTranslation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -56,10 +60,10 @@ function ListingsTab() {
     try {
       if (editing) {
         await productService.update(editing.id, values);
-        toast.success("Listing updated.");
+        toast.success(t("dashboard.farmer.listingUpdated"));
       } else {
         await productService.create(values);
-        toast.success("Listing created.");
+        toast.success(t("dashboard.farmer.listingCreated"));
       }
       setModalOpen(false);
       loadProducts();
@@ -69,10 +73,10 @@ function ListingsTab() {
   }
 
   async function handleDelete(product) {
-    if (!confirm(`Delete "${product.name}"? This cannot be undone.`)) return;
+    if (!confirm(t("dashboard.farmer.deleteConfirm", { name: product.name }))) return;
     try {
       await productService.remove(product.id);
-      toast.success("Listing deleted.");
+      toast.success(t("dashboard.farmer.listingDeleted"));
       loadProducts();
     } catch (err) {
       toast.error(err.message);
@@ -83,11 +87,11 @@ function ListingsTab() {
     <>
       <div className="flex-between page-header">
         <div>
-          <h1>My Listings</h1>
-          <p>Create and manage the produce you have for sale.</p>
+          <h1>{t("dashboard.farmer.title")}</h1>
+          <p>{t("dashboard.farmer.subtitle")}</p>
         </div>
         <button className="btn btn-primary" onClick={openCreate}>
-          <Plus size={16} /> New Listing
+          <Plus size={16} /> {t("dashboard.farmer.newListing")}
         </button>
       </div>
 
@@ -96,11 +100,11 @@ function ListingsTab() {
       ) : products.length === 0 ? (
         <EmptyState
           icon={Package}
-          title="No listings yet"
-          message="Create your first listing to start selling on AgroLink."
+          title={t("dashboard.farmer.emptyTitle")}
+          message={t("dashboard.farmer.emptyMessage")}
           action={
             <button className="btn btn-primary" onClick={openCreate}>
-              <Plus size={16} /> New Listing
+              <Plus size={16} /> {t("dashboard.farmer.newListing")}
             </button>
           }
         />
@@ -109,11 +113,11 @@ function ListingsTab() {
           <table>
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Status</th>
+                <th>{t("dashboard.farmer.tableProduct")}</th>
+                <th>{t("dashboard.farmer.tableCategory")}</th>
+                <th>{t("dashboard.farmer.tablePrice")}</th>
+                <th>{t("dashboard.farmer.tableStock")}</th>
+                <th>{t("dashboard.farmer.tableStatus")}</th>
                 <th></th>
               </tr>
             </thead>
@@ -121,7 +125,7 @@ function ListingsTab() {
               {products.map((p) => (
                 <tr key={p.id}>
                   <td style={{ fontWeight: 600 }}>{p.name}</td>
-                  <td>{p.category}</td>
+                  <td>{t(`categories.${p.category}`, p.category)}</td>
                   <td>
                     {formatPrice(p.price)} / {p.unit}
                   </td>
@@ -147,10 +151,10 @@ function ListingsTab() {
       )}
 
       {modalOpen && (
-        <Modal title={editing ? "Edit Listing" : "New Listing"} onClose={() => setModalOpen(false)}>
+        <Modal title={editing ? t("dashboard.farmer.editListing") : t("dashboard.farmer.newListingModal")} onClose={() => setModalOpen(false)}>
           <ProductForm
             initialValues={editing || undefined}
-            submitLabel={editing ? "Save changes" : "Create listing"}
+            submitLabel={editing ? t("dashboard.farmer.saveChanges") : t("dashboard.farmer.createListing")}
             onSubmit={handleSubmit}
           />
         </Modal>
@@ -160,6 +164,7 @@ function ListingsTab() {
 }
 
 function OrdersTab() {
+  const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -176,7 +181,7 @@ function OrdersTab() {
   async function handleStatusChange(orderId, status) {
     try {
       await orderService.updateStatus(orderId, status);
-      toast.success("Order status updated.");
+      toast.success(t("dashboard.farmer.statusUpdated"));
       loadOrders();
     } catch (err) {
       toast.error(err.message);
@@ -186,26 +191,26 @@ function OrdersTab() {
   return (
     <>
       <div className="page-header">
-        <h1>Orders</h1>
-        <p>Orders that include products you've listed.</p>
+        <h1>{t("dashboard.farmer.ordersTitle")}</h1>
+        <p>{t("dashboard.farmer.ordersSubtitle")}</p>
       </div>
 
       {loading ? (
         <Loader />
       ) : items.length === 0 ? (
-        <EmptyState icon={ClipboardList} title="No orders yet" message="Orders for your products will appear here." />
+        <EmptyState icon={ClipboardList} title={t("dashboard.farmer.ordersEmptyTitle")} message={t("dashboard.farmer.ordersEmptyMessage")} />
       ) : (
         <div className="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Buyer</th>
-                <th>Product</th>
-                <th>Qty</th>
-                <th>Subtotal</th>
-                <th>Status</th>
-                <th>Placed</th>
-                <th>Update</th>
+                <th>{t("dashboard.farmer.tableBuyer")}</th>
+                <th>{t("dashboard.farmer.tableProduct")}</th>
+                <th>{t("dashboard.farmer.tableQty")}</th>
+                <th>{t("dashboard.farmer.tableSubtotal")}</th>
+                <th>{t("dashboard.farmer.tableStatus")}</th>
+                <th>{t("dashboard.farmer.tablePlaced")}</th>
+                <th>{t("dashboard.farmer.tableUpdate")}</th>
               </tr>
             </thead>
             <tbody>
@@ -228,7 +233,7 @@ function OrdersTab() {
                     >
                       {ORDER_STATUSES.map((s) => (
                         <option key={s} value={s}>
-                          {s}
+                          {t(`statuses.${s}`, s)}
                         </option>
                       ))}
                     </select>

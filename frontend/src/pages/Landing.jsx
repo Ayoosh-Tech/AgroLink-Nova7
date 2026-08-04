@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Wheat, Apple, Carrot, Beef, Sprout, ArrowRight, ShieldCheck, Truck, Users } from "lucide-react";
 
 const categories = [
@@ -11,26 +12,24 @@ const categories = [
 
 export default function Landing() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <>
       <section className="hero">
         <div className="container hero-inner">
           <div>
-            <span className="hero-eyebrow">🌾 Fresh from the farm, direct to you</span>
+            <span className="hero-eyebrow">{t("landing.eyebrow")}</span>
             <h1>
-              Connecting Farmers Directly With Buyers — <span style={{ color: "var(--primary)" }}>No Middlemen.</span>
+              {t("landing.headline")} <span style={{ color: "var(--primary)" }}>{t("landing.headlineAccent")}</span>
             </h1>
-            <p className="lede">
-              AgroLink is a digital marketplace where farmers list their produce and buyers
-              order fresh, trusted agricultural products — simply and transparently.
-            </p>
+            <p className="lede">{t("landing.description")}</p>
             <div className="hero-actions">
               <button className="btn btn-primary" onClick={() => navigate("/products")}>
-                Browse Products <ArrowRight size={16} />
+                {t("landing.browseProducts")} <ArrowRight size={16} />
               </button>
               <button className="btn btn-outline" onClick={() => navigate("/register")}>
-                Sell Your Produce
+                {t("landing.sellProduce")}
               </button>
             </div>
           </div>
@@ -43,8 +42,8 @@ export default function Landing() {
       <section className="section">
         <div className="container">
           <div className="page-header text-center">
-            <h2 style={{ fontSize: 26 }}>Shop by Category</h2>
-            <p>Everything from fresh vegetables to livestock, sourced from real farmers.</p>
+            <h2 style={{ fontSize: 26 }}>{t("landing.shopByCategory")}</h2>
+            <p>{t("landing.categoryDescription")}</p>
           </div>
           <div className="grid grid-4">
             {categories.map((c) => (
@@ -56,7 +55,7 @@ export default function Landing() {
                 <span className="icon-wrap">
                   <c.icon size={22} />
                 </span>
-                <span style={{ fontWeight: 700, fontSize: 14 }}>{c.name}</span>
+                <span style={{ fontWeight: 700, fontSize: 14 }}>{t(`categories.${c.name}`)}</span>
               </button>
             ))}
           </div>
@@ -68,23 +67,23 @@ export default function Landing() {
           <div className="grid grid-3">
             <div className="text-center">
               <ShieldCheck size={30} color="var(--primary)" style={{ margin: "0 auto 10px" }} />
-              <h3 style={{ fontSize: 16, marginBottom: 6 }}>Trusted Farmers</h3>
+              <h3 style={{ fontSize: 16, marginBottom: 6 }}>{t("landing.trustedFarmersTitle")}</h3>
               <p className="text-muted" style={{ fontSize: 14 }}>
-                Every listing is tied to a verified farmer profile you can review.
+                {t("landing.trustedFarmersText")}
               </p>
             </div>
             <div className="text-center">
               <Truck size={30} color="var(--primary)" style={{ margin: "0 auto 10px" }} />
-              <h3 style={{ fontSize: 16, marginBottom: 6 }}>Order Tracking</h3>
+              <h3 style={{ fontSize: 16, marginBottom: 6 }}>{t("landing.trackingTitle")}</h3>
               <p className="text-muted" style={{ fontSize: 14 }}>
-                Track every order from pending to accepted to delivered.
+                {t("landing.trackingText")}
               </p>
             </div>
             <div className="text-center">
               <Users size={30} color="var(--primary)" style={{ margin: "0 auto 10px" }} />
-              <h3 style={{ fontSize: 16, marginBottom: 6 }}>No Middlemen</h3>
+              <h3 style={{ fontSize: 16, marginBottom: 6 }}>{t("landing.noMiddlemenTitle")}</h3>
               <p className="text-muted" style={{ fontSize: 14 }}>
-                Buy and sell directly — fairer prices for everyone involved.
+                {t("landing.noMiddlemenText")}
               </p>
             </div>
           </div>
@@ -93,12 +92,12 @@ export default function Landing() {
 
       <section className="section text-center">
         <div className="container">
-          <h2 style={{ fontSize: 26, marginBottom: 10 }}>Ready to get started?</h2>
+          <h2 style={{ fontSize: 26, marginBottom: 10 }}>{t("landing.readyTitle")}</h2>
           <p className="text-muted" style={{ marginBottom: 22 }}>
-            Join AgroLink as a farmer or a buyer — it only takes a minute.
+            {t("landing.readyText")}
           </p>
           <button className="btn btn-primary" onClick={() => navigate("/register")}>
-            Create your free account
+            {t("landing.createAccount")}
           </button>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { profileSchema, passwordChangeSchema } from "../utils/validators.js";
 import { userService } from "../services/userService.js";
@@ -8,6 +9,7 @@ import { initials } from "../utils/formatters.js";
 
 export default function Profile() {
   const { user, updateUserLocally } = useAuth();
+  const { t } = useTranslation();
 
   const profileForm = useForm({
     resolver: zodResolver(profileSchema),
@@ -20,7 +22,7 @@ export default function Profile() {
     try {
       const result = await userService.updateProfile(data);
       updateUserLocally(result.user);
-      toast.success("Profile updated.");
+      toast.success(t("profile.profileUpdated"));
     } catch (err) {
       toast.error(err.message);
     }

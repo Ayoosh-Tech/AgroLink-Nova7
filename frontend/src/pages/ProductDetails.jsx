@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { Leaf, MapPin, Phone, Minus, Plus } from "lucide-react";
 import { productService } from "../services/productService.js";
@@ -14,6 +15,7 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { addToCart } = useCart();
+  const { t } = useTranslation();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,7 +34,7 @@ export default function ProductDetails() {
   if (!product) {
     return (
       <div className="container">
-        <EmptyState title="Product not found" message="This listing may have been removed." />
+        <EmptyState title={t("products.productNotFound")} message={t("products.productRemoved")} />
       </div>
     );
   }
@@ -41,12 +43,12 @@ export default function ProductDetails() {
 
   function handleAddToCart() {
     if (!isAuthenticated) {
-      toast.info("Please log in as a buyer to add items to your cart.");
+      toast.info(t("products.loginToBuy"));
       navigate("/login");
       return;
     }
     addToCart(product, qty);
-    toast.success(`${product.name} added to your cart.`);
+    toast.success(t("products.addedToCart", { name: product.name }));
   }
 
   return (
@@ -61,17 +63,19 @@ export default function ProductDetails() {
         </div>
 
         <div>
-          <span className="product-card-category">{product.category}</span>
+          <span className="product-card-category">{t(`categories.${product.category}`, product.category)}</span>
           <h1 style={{ margin: "10px 0 6px" }}>{product.name}</h1>
           <div className="text-muted flex" style={{ gap: 5, marginBottom: 16 }}>
-            <MapPin size={14} /> {product.location || "Location not set"}
+            <MapPin size={14} /> {product.location || t("products.locationNotSet")}
           </div>
 
           <div style={{ fontFamily: "var(--font-heading)", fontWeight: 800, fontSize: 30, color: "var(--primary)", marginBottom: 6 }}>
             {formatPrice(product.price)} <span style={{ fontSize: 14, fontWeight: 500, color: "var(--text-muted)" }}>/ {product.unit}</span>
           </div>
           <div className="text-muted" style={{ marginBottom: 20, fontSize: 13.5 }}>
-            {product.quantity > 0 ? `${product.quantity} ${product.unit}(s) available` : "Out of stock"}
+            {product.quantity > 0
+              ? t("products.available", { quantity: product.quantity, unit: product.unit })
+              : t("products.outOfStock")}
           </div>
 
           {product.description && <p style={{ marginBottom: 20 }}>{product.description}</p>}
@@ -88,20 +92,20 @@ export default function ProductDetails() {
                 </button>
               </div>
               <button className="btn btn-primary" onClick={handleAddToCart}>
-                Add to Cart
+                {t("products.addToCart")}
               </button>
             </div>
           )}
 
           {!canBuy && (
             <p className="text-muted" style={{ fontStyle: "italic", marginBottom: 20 }}>
-              Farmer and admin accounts can't purchase products.
+              {t("products.farmerCantBuy")}
             </p>
           )}
 
           <div className="card" style={{ background: "var(--surface-alt)" }}>
             <div className="text-muted" style={{ fontSize: 11.5, fontWeight: 700, textTransform: "uppercase", marginBottom: 8 }}>
-              Sold by
+              {t("products.soldBy")}
             </div>
             <div style={{ fontWeight: 700, marginBottom: 4 }}>{product.farmer?.name}</div>
             {product.farmer?.phone && (

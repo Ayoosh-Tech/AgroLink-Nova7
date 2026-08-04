@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { Sprout, ShoppingCart, Menu, X, User, LogOut, LayoutDashboard, Moon, Sun } from "lucide-react";
+import { Sprout, ShoppingCart, Menu, X, User, LogOut, LayoutDashboard, Moon, Sun, Languages } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth.js";
 import { useCart } from "../../hooks/useCart.js";
 import { useTheme } from "../../context/ThemeContext.jsx";
+import { useTranslation } from "react-i18next";
 
 const dashboardPathByRole = { farmer: "/farmer/dashboard", buyer: "/buyer/dashboard", admin: "/admin/dashboard" };
 
@@ -11,6 +12,7 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { totalItems } = useCart();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -19,6 +21,12 @@ export default function Navbar() {
     logout();
     setMenuOpen(false);
     navigate("/");
+  }
+
+  function toggleLanguage() {
+    const next = i18n.language === "en" ? "ha" : "en";
+    i18n.changeLanguage(next);
+    localStorage.setItem("agrolink-language", next);
   }
 
   return (
@@ -33,24 +41,24 @@ export default function Navbar() {
 
         <nav className={`navbar-links ${mobileOpen ? "mobile-open" : ""}`}>
           <NavLink to="/" end className="navbar-link" onClick={() => setMobileOpen(false)}>
-            Home
+            {t("nav.home")}
           </NavLink>
           <NavLink to="/products" className="navbar-link" onClick={() => setMobileOpen(false)}>
-            Products
+            {t("nav.products")}
           </NavLink>
           <NavLink to="/about" className="navbar-link" onClick={() => setMobileOpen(false)}>
-            About
+            {t("nav.about")}
           </NavLink>
           {isAuthenticated && (
             <NavLink to={dashboardPathByRole[user.role]} className="navbar-link" onClick={() => setMobileOpen(false)}>
-              Dashboard
+              {t("nav.dashboard")}
             </NavLink>
           )}
         </nav>
 
         <div className="navbar-actions">
           {user?.role !== "farmer" && user?.role !== "admin" && (
-            <button className="btn btn-ghost btn-icon" onClick={() => navigate("/cart")} aria-label="Cart" style={{ position: "relative" }}>
+            <button className="btn btn-ghost btn-icon" onClick={() => navigate("/cart")} aria-label={t("nav.cart")} style={{ position: "relative" }}>
               <ShoppingCart size={20} />
               
               {totalItems > 0 && (
@@ -77,7 +85,11 @@ export default function Navbar() {
             </button>
           )}
 
-        <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
+        <button className="theme-toggle" onClick={toggleLanguage} aria-label={t("nav.toggleLanguage")}>
+              <Languages size={18} />
+            </button>
+
+        <button className="theme-toggle" onClick={toggleTheme} aria-label={t("nav.toggleTheme")}>
               {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
             </button>
 
@@ -105,7 +117,7 @@ export default function Navbar() {
                       setMenuOpen(false);
                     }}
                   >
-                    <LayoutDashboard size={16} /> Dashboard
+                    <LayoutDashboard size={16} /> {t("nav.dashboard")}
                   </button>
                   <button
                     className="dashboard-nav-item"
@@ -114,10 +126,10 @@ export default function Navbar() {
                       setMenuOpen(false);
                     }}
                   >
-                    <User size={16} /> Profile
+                    <User size={16} /> {t("nav.profile")}
                   </button>
                   <button className="dashboard-nav-item" onClick={handleLogout} style={{ color: "var(--danger)" }}>
-                    <LogOut size={16} /> Log out
+                    <LogOut size={16} /> {t("nav.logout")}
                   </button>
                 </div>
               )}
@@ -125,10 +137,10 @@ export default function Navbar() {
           ) : (
             <>
               <button className="btn btn-ghost" onClick={() => navigate("/login")}>
-                Log in
+                {t("nav.login")}
               </button>
               <button className="btn btn-primary" onClick={() => navigate("/register")}>
-                Get started
+                {t("nav.signup")}
               </button>
             </>
           )}

@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { loginSchema } from "../utils/validators.js";
 import { useAuth } from "../hooks/useAuth.js";
@@ -11,6 +12,7 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const {
     register,
@@ -21,7 +23,7 @@ export default function Login() {
   async function onSubmit(data) {
     try {
       const user = await login(data.email, data.password);
-      toast.success(`Welcome back, ${user.name.split(" ")[0]}!`);
+      toast.success(t("auth.welcomeGreeting", { name: user.name.split(" ")[0] }));
       const redirectTo = location.state?.from || dashboardPathByRole[user.role] || "/";
       navigate(redirectTo, { replace: true });
     } catch (err) {
@@ -32,27 +34,27 @@ export default function Login() {
   return (
     <div className="container">
       <div className="card auth-card">
-        <h1>Welcome back</h1>
-        <p className="text-muted" style={{ marginBottom: 22 }}>Log in to your AgroLink account.</p>
+        <h1>{t("auth.welcomeBack")}</h1>
+        <p className="text-muted" style={{ marginBottom: 22 }}>{t("auth.welcomeBackSubtext")}</p>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="form-group">
-            <label className="form-label">Email address</label>
+            <label className="form-label">{t("auth.email")}</label>
             <input className="form-input" type="email" placeholder="you@example.com" {...register("email")} />
             {errors.email && <div className="form-error">{errors.email.message}</div>}
           </div>
           <div className="form-group">
-            <label className="form-label">Password</label>
+            <label className="form-label">{t("auth.password")}</label>
             <input className="form-input" type="password" placeholder="••••••••" {...register("password")} />
             {errors.password && <div className="form-error">{errors.password.message}</div>}
           </div>
           <button className="btn btn-primary btn-block" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Logging in..." : "Log in"}
+            {isSubmitting ? t("auth.loggingIn") : t("auth.loginButton")}
           </button>
         </form>
 
         <div className="auth-switch">
-          Don't have an account? <Link to="/register">Create one</Link>
+          {t("auth.noAccount")} <Link to="/register">{t("auth.createOne")}</Link>
         </div>
       </div>
     </div>

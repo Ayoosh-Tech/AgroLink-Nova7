@@ -1,4 +1,5 @@
 import { Navigate, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../hooks/useAuth.js";
 import Loader from "../common/Loader.jsx";
 
@@ -9,8 +10,9 @@ import Loader from "../common/Loader.jsx";
 export default function ProtectedRoute({ children, roles }) {
   const { user, loading, isAuthenticated } = useAuth();
   const location = useLocation();
+  const { t } = useTranslation();
 
-  if (loading) return <Loader label="Checking your session..." />;
+  if (loading) return <Loader label={t("protectedRoute.checkingSession")} />;
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;

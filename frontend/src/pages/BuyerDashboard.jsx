@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Package } from "lucide-react";
 import { orderService } from "../services/orderService.js";
 import { formatDateTime, formatPrice } from "../utils/formatters.js";
@@ -8,12 +9,15 @@ import Loader from "../components/common/Loader.jsx";
 import EmptyState from "../components/common/EmptyState.jsx";
 import Badge from "../components/common/Badge.jsx";
 
-const navItems = [{ key: "orders", label: "My Orders", icon: Package }];
+const navItems = [{ key: "orders", labelKey: "dashboard.buyer.title", icon: Package }];
 
 export default function BuyerDashboard() {
+  const { t } = useTranslation();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+
+  const nav = navItems.map((item) => ({ ...item, label: t(item.labelKey) }));
 
   useEffect(() => {
     orderService
@@ -23,10 +27,10 @@ export default function BuyerDashboard() {
   }, []);
 
   return (
-    <DashboardLayout navItems={navItems} activeKey="orders" onChange={() => {}}>
+    <DashboardLayout navItems={nav} activeKey="orders" onChange={() => {}}>
       <div className="page-header">
-        <h1>My Orders</h1>
-        <p>Track every order you've placed on AgroLink.</p>
+        <h1>{t("dashboard.buyer.title")}</h1>
+        <p>{t("dashboard.buyer.subtitle")}</p>
       </div>
 
       {loading ? (
@@ -34,11 +38,11 @@ export default function BuyerDashboard() {
       ) : orders.length === 0 ? (
         <EmptyState
           icon={Package}
-          title="No orders yet"
-          message="Once you check out, your orders will show up here."
+          title={t("dashboard.buyer.emptyTitle")}
+          message={t("dashboard.buyer.emptyMessage")}
           action={
             <button className="btn btn-primary" onClick={() => navigate("/products")}>
-              Browse Products
+              {t("cart.browseProducts")}
             </button>
           }
         />
@@ -47,11 +51,11 @@ export default function BuyerDashboard() {
           <table>
             <thead>
               <tr>
-                <th>Order</th>
-                <th>Items</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Placed</th>
+                <th>{t("dashboard.buyer.tableOrder")}</th>
+                <th>{t("dashboard.buyer.tableItems")}</th>
+                <th>{t("dashboard.buyer.tableTotal")}</th>
+                <th>{t("dashboard.buyer.tableStatus")}</th>
+                <th>{t("dashboard.buyer.tablePlaced")}</th>
               </tr>
             </thead>
             <tbody>

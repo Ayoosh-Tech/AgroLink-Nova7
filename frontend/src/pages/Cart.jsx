@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "../hooks/useCart.js";
 import CartItemRow from "../components/cart/CartItemRow.jsx";
@@ -8,22 +9,23 @@ import EmptyState from "../components/common/EmptyState.jsx";
 export default function Cart() {
   const { items } = useCart();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="container">
       <div className="page-header">
-        <h1>Your Cart</h1>
-        <p>Review your items before checking out.</p>
+        <h1>{t("cart.title")}</h1>
+        <p>{t("cart.subtitle")}</p>
       </div>
 
       {items.length === 0 ? (
         <EmptyState
           icon={ShoppingCart}
-          title="Your cart is empty"
-          message="Browse the marketplace to find fresh produce."
+          title={t("cart.emptyTitle")}
+          message={t("cart.emptyMessage")}
           action={
             <button className="btn btn-primary" onClick={() => navigate("/products")}>
-              Browse Products
+              {t("cart.browseProducts")}
             </button>
           }
         />

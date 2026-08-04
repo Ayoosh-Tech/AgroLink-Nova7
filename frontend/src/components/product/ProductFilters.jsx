@@ -1,9 +1,11 @@
 import { Search } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { CATEGORIES } from "../../utils/formatters.js";
 
 // Controlled component: `filters` + `onChange` are owned by the Products page,
 // so the URL/query-string can stay the single source of truth there.
 export default function ProductFilters({ filters, onChange }) {
+  const { t } = useTranslation();
   function set(key, value) {
     onChange({ ...filters, [key]: value });
   }
@@ -12,13 +14,13 @@ export default function ProductFilters({ filters, onChange }) {
     <div className="card" style={{ marginBottom: 24 }}>
       <div className="grid grid-4" style={{ alignItems: "end" }}>
         <div className="form-group" style={{ marginBottom: 0, gridColumn: "span 2" }}>
-          <label className="form-label">Search</label>
+          <label className="form-label">{t("products.searchLabel")}</label>
           <div style={{ position: "relative" }}>
             <Search size={16} style={{ position: "absolute", left: 12, top: 13, color: "var(--text-muted)" }} />
             <input
               className="form-input"
               style={{ paddingLeft: 36 }}
-              placeholder="Search products..."
+              placeholder={t("products.searchPlaceholder")}
               value={filters.search || ""}
               onChange={(e) => set("search", e.target.value)}
             />
@@ -26,22 +28,22 @@ export default function ProductFilters({ filters, onChange }) {
         </div>
 
         <div className="form-group" style={{ marginBottom: 0 }}>
-          <label className="form-label">Category</label>
+          <label className="form-label">{t("products.categoryLabel")}</label>
           <select className="form-select" value={filters.category || ""} onChange={(e) => set("category", e.target.value)}>
-            <option value="">All categories</option>
+            <option value="">{t("products.allCategories")}</option>
             {CATEGORIES.map((c) => (
               <option key={c} value={c}>
-                {c}
+                {t(`categories.${c}`)}
               </option>
             ))}
           </select>
         </div>
 
         <div className="form-group" style={{ marginBottom: 0 }}>
-          <label className="form-label">Location</label>
+          <label className="form-label">{t("products.locationLabel")}</label>
           <input
             className="form-input"
-            placeholder="e.g. Kano"
+            placeholder={t("products.locationPlaceholder")}
             value={filters.location || ""}
             onChange={(e) => set("location", e.target.value)}
           />
@@ -50,7 +52,7 @@ export default function ProductFilters({ filters, onChange }) {
 
       <div className="grid grid-2" style={{ marginTop: 14 }}>
         <div className="form-group" style={{ marginBottom: 0 }}>
-          <label className="form-label">Min price (₦)</label>
+          <label className="form-label">{t("products.minPriceLabel")}</label>
           <input
             className="form-input"
             type="number"
@@ -60,7 +62,7 @@ export default function ProductFilters({ filters, onChange }) {
           />
         </div>
         <div className="form-group" style={{ marginBottom: 0 }}>
-          <label className="form-label">Max price (₦)</label>
+          <label className="form-label">{t("products.maxPriceLabel")}</label>
           <input
             className="form-input"
             type="number"

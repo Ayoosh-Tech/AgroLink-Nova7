@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Leaf, MapPin } from "lucide-react";
 import { formatPrice } from "../../utils/formatters.js";
 
 export default function ProductCard({ product }) {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <div className="product-card card-hover" onClick={() => navigate(`/products/${product.id}`)} style={{ cursor: "pointer" }}>
@@ -15,10 +17,10 @@ export default function ProductCard({ product }) {
         )}
       </div>
       <div className="product-card-body">
-        <span className="product-card-category">{product.category}</span>
+        <span className="product-card-category">{t(`categories.${product.category}`, product.category)}</span>
         <div className="product-card-title">{product.name}</div>
         <div className="product-card-meta flex" style={{ gap: 4 }}>
-          <MapPin size={12} /> {product.location || product.farmer?.location || "Location not set"}
+          <MapPin size={12} /> {product.location || product.farmer?.location || t("products.locationNotSet")}
         </div>
         <div className="flex-between" style={{ marginTop: 6 }}>
           <span className="product-card-price">

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { registerSchema } from "../utils/validators.js";
 import { useAuth } from "../hooks/useAuth.js";
@@ -12,6 +13,7 @@ export default function Register() {
   const { register: registerUser } = useAuth();
   const navigate = useNavigate();
   const [role, setRole] = useState("buyer");
+  const { t } = useTranslation();
 
   const {
     register,
@@ -29,7 +31,7 @@ export default function Register() {
     try {
       const { confirmPassword, ...payload } = data;
       const user = await registerUser(payload);
-      toast.success(`Welcome to AgroLink, ${user.name.split(" ")[0]}!`);
+      toast.success(t("auth.welcomeRegister", { name: user.name.split(" ")[0] }));
       navigate(dashboardPathByRole[user.role] || "/", { replace: true });
     } catch (err) {
       toast.error(err.message);
@@ -39,15 +41,15 @@ export default function Register() {
   return (
     <div className="container">
       <div className="card auth-card">
-        <h1>Join AgroLink</h1>
-        <p className="text-muted" style={{ marginBottom: 22 }}>Create an account to start buying or selling.</p>
+        <h1>{t("auth.joinAgrolink")}</h1>
+        <p className="text-muted" style={{ marginBottom: 22 }}>{t("auth.joinSubtext")}</p>
 
         <div className="role-toggle">
           <button type="button" className={role === "buyer" ? "active" : ""} onClick={() => chooseRole("buyer")}>
-            I'm a Buyer
+            {t("auth.buyer")}
           </button>
           <button type="button" className={role === "farmer" ? "active" : ""} onClick={() => chooseRole("farmer")}>
-            I'm a Farmer
+            {t("auth.farmer")}
           </button>
         </div>
 
@@ -55,48 +57,50 @@ export default function Register() {
           <input type="hidden" {...register("role")} value={role} />
 
           <div className="form-group">
-            <label className="form-label">Full name</label>
-            <input className="form-input" placeholder="Your full name" {...register("name")} />
+            <label className="form-label">{t("auth.fullName")}</label>
+            <input className="form-input" placeholder={t("auth.fullNamePlaceholder")} {...register("name")} />
             {errors.name && <div className="form-error">{errors.name.message}</div>}
           </div>
 
           <div className="form-group">
-            <label className="form-label">Email address</label>
+            <label className="form-label">{t("auth.email")}</label>
             <input className="form-input" type="email" placeholder="you@example.com" {...register("email")} />
             {errors.email && <div className="form-error">{errors.email.message}</div>}
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Phone (optional)</label>
-              <input className="form-input" placeholder="+234..." {...register("phone")} />
+              <label className="form-label">{t("auth.phone")}</label>
+              <input className="form-input" placeholder={t("auth.phonePlaceholder")} {...register("phone")} />
             </div>
             <div className="form-group">
-              <label className="form-label">Location (optional)</label>
-              <input className="form-input" placeholder="City, State" {...register("location")} />
+              <label className="form-label">{t("auth.location")}</label>
+              <input className="form-input" placeholder={t("auth.locationPlaceholder")} {...register("location")} />
             </div>
           </div>
 
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">Password</label>
+              <label className="form-label">{t("auth.password")}</label>
               <input className="form-input" type="password" placeholder="••••••••" {...register("password")} />
               {errors.password && <div className="form-error">{errors.password.message}</div>}
             </div>
             <div className="form-group">
-              <label className="form-label">Confirm password</label>
+              <label className="form-label">{t("auth.confirmPassword")}</label>
               <input className="form-input" type="password" placeholder="••••••••" {...register("confirmPassword")} />
               {errors.confirmPassword && <div className="form-error">{errors.confirmPassword.message}</div>}
             </div>
           </div>
 
           <button className="btn btn-primary btn-block" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating account..." : `Create ${role} account`}
+            {isSubmitting
+              ? t("auth.creatingAccount")
+              : t("auth.createRoleAccount", { role: t(`roles.${role}`) })}
           </button>
         </form>
 
         <div className="auth-switch">
-          Already have an account? <Link to="/login">Log in</Link>
+          {t("auth.alreadyHaveAccount")} <Link to="/login">{t("auth.loginButton")}</Link>
         </div>
       </div>
     </div>

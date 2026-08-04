@@ -9,6 +9,7 @@ import "./styles/main.css";
 import "./styles/components.css";
 import "./styles/responsive.css";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
+import "./i18n.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

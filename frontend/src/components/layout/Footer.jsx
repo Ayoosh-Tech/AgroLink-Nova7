@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Sprout } from "lucide-react";
 
 export default function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="footer">
       <div className="container">
@@ -14,38 +16,37 @@ export default function Footer() {
               AgroLink
             </div>
             <p className="text-muted" style={{ maxWidth: 320, fontSize: 14 }}>
-              A digital marketplace connecting farmers directly with buyers — fresher
-              produce, fairer prices, no middlemen.
+              {t("footer.description")}
             </p>
           </div>
           <div>
-            <div className="footer-title">Marketplace</div>
+            <div className="footer-title">{t("footer.marketplace")}</div>
             <ul className="footer-links">
               <li>
-                <NavLink to="/products">Browse Products</NavLink>
+                <NavLink to="/products">{t("footer.browseProducts")}</NavLink>
               </li>
               <li>
-                <NavLink to="/register">Sell on AgroLink</NavLink>
+                <NavLink to="/register">{t("footer.sellOnAgrolink")}</NavLink>
               </li>
               <li>
-                <NavLink to="/about">About Us</NavLink>
+                <NavLink to="/about">{t("footer.aboutUs")}</NavLink>
               </li>
             </ul>
           </div>
           <div>
-            <div className="footer-title">Account</div>
+            <div className="footer-title">{t("footer.account")}</div>
             <ul className="footer-links">
               <li>
-                <NavLink to="/login">Log in</NavLink>
+                <NavLink to="/login">{t("footer.login")}</NavLink>
               </li>
               <li>
-                <NavLink to="/register">Create account</NavLink>
+                <NavLink to="/register">{t("footer.createAccount")}</NavLink>
               </li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
-          © {new Date().getFullYear()} AgroLink — Built by Team Nova7 (NextGen Innovators).
+          {t("footer.copyright", { year: new Date().getFullYear() })}
         </div>
       </div>
     </footer>
