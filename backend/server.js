@@ -23,8 +23,8 @@ app.use(helmet());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://agrolink-nova7.netlify.app/",
-    "https://agro-link-nova7.vercel.app/"
+    "https://agrolink-nova7.netlify.app",
+    "https://agro-link-nova7.vercel.app"
   ],
   credentials: true
 }));
