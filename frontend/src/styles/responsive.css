@@ -23,6 +23,10 @@ img{
   overflow-y: auto;
 }
 
+.mobile-menu-btn{
+  display: none;
+}
+
 @media (max-width: 1024px) {
   .grid-4 {
     grid-template-columns: repeat(2, 1fr);
@@ -42,9 +46,11 @@ img{
   .navbar{
     position: sticky;
     top: 0;
+    z-index: 1000;    
   }
 
   .navbar-inner{
+    position: relative;
     padding: 12px 0;
   }
 
@@ -55,25 +61,30 @@ img{
   .navbar-links.mobile-open {
     display: flex;
     flex-direction: column;
-    /*position: static;
-    top: 64px;
+    /*align-items: stretch;
+    top: 65px;*/
+    top: 100%;
+    position: absolute;
     left: 0;
-    right: 0;
-    border-bottom: 1px solid var(--border);
-    padding: 10px 24px 16px;
-    gap: 4px;
-    width: 100%;*/
-    background: var(--surface);
+    /*right: 0;*/
+    box-shadow: var(--border);
     border-top: 1px solid var(--border);
+    padding: 16px;
+    gap: 12px;
+    width: 100%;
+    background: var(--surface);
+    /*border-bottom: 1px solid var(--border);
     padding: 12px 16px;
-    gap: 8px;
+    padding: 10px 24px 16px;
+    gap: 8px;*/
   }
 
-  .navbar-actions .btn{
+  .navbar-actions > .btn{
     display: none;
   }
 
   .mobile-menu-btn{
+    display: block;
     width: 100%;
     margin-top: 10px;
   }
