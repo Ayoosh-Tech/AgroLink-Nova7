@@ -3,8 +3,9 @@ import axios from "axios";
 const TOKEN_KEY = "agrolink.token";
 
 const api = axios.create({
+  
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
-  headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json" }
 });
 
 // Attach the JWT (if we have one) to every outgoing request.
@@ -41,4 +42,5 @@ export function clearToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
+console.log("Axios base URL:", api.defaults.baseURL);
 export default api;

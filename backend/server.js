@@ -19,7 +19,15 @@ const uploadRoutes = require("./routes/uploadRoutes");
 const app = express();
 
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
+//app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://agrolink-nova7.netlify.app/",
+    "https://agro-link-nova7.vercel.app/"
+  ],
+  credentials: true
+}));
 app.use(express.json({ limit: "1mb" }));
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
