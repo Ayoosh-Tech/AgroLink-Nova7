@@ -27,6 +27,12 @@ img{
   display: none;
 }
 
+.cart-layout{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
 @media (max-width: 1024px) {
   .grid-4 {
     grid-template-columns: repeat(2, 1fr);
@@ -46,7 +52,8 @@ img{
   .navbar{
     position: sticky;
     top: 0;
-    z-index: 1000;    
+    z-index: 1000;
+    padding: 12px 0;    
   }
 
   .navbar-inner{
@@ -158,6 +165,9 @@ img{
     font-size: 15px;
     margin-bottom: 18px;
   }
+  .cart-layout{
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 520px) {
@@ -196,7 +206,45 @@ img{
       "thumb name"
       "thumb qty"
       "thumb price";
-    row-gap: 6px;
+    /*row-gap: 6px;*/
+    column-gap: 20px !important;
+    row-gap: 10px;
+    align-items: start;
+  }
+
+  .cart-item-thumb{
+    width: 70px;
+    height: 70px;
+    margin-right: 12px !important;
+  }
+
+  .cart-item-thumb{
+    grid-area: thumb;
+    margin-right: 8px;
+  }
+
+  .cart-item > div[style*="grid-area: name"]{
+    padding-left: 8px;
+  }
+
+  .cart-item > div[style*="grid-area: qty"]{
+    padding-left: 8px;
+  }
+
+  .cart-item > div[style*="grid-area: price"]{
+    padding-left: 8px;
+  }
+
+  .qty-stepper{
+    width: fit-content;
+    justify-self: start;
+  }
+
+  .cart-item .flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   }
 
   .hero-actions {

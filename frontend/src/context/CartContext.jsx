@@ -37,6 +37,11 @@ export function CartProvider({ children }) {
           unit: product.unit,
           quantity: Math.min(qty, product.quantity),
           maxQuantity: product.quantity,
+          image:
+           product.image ||
+           product.imageUrl ||
+           product.images?.[0] ||
+           "",
           farmerId: product.farmerId || product.farmer?.id,
           farmerName: product.farmer?.name || "",
         },

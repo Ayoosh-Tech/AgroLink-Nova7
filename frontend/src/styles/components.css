@@ -583,10 +583,11 @@ tr:last-child td {
   inset: 0;
   background: rgba(20, 30, 20, 0.5);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  overflow-y: auto;
   z-index: 100;
-  padding: 16px;
+  padding: 30px 16px;
 }
 
 .modal-box {
@@ -594,7 +595,9 @@ tr:last-child td {
   border-radius: var(--radius-lg);
   padding: 26px;
   width: 100%;
-  max-width: 440px;
+  max-width: 500px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   box-shadow: var(--shadow-lg);
 }
 
@@ -693,7 +696,8 @@ tr:last-child td {
 .cart-item {
   display: grid;
   grid-template-columns: 72px 1fr auto auto;
-  gap: 16px;
+  grid-template-areas: "thumb name qty price";
+  gap: 20px 16px;
   align-items: center;
   padding: 16px 0;
   border-bottom: 1px solid var(--border);
@@ -712,6 +716,25 @@ tr:last-child td {
   align-items: center;
   justify-content: center;
   color: var(--secondary);
+}
+
+.cart-item-name{
+  grid-area: name;
+}
+
+.cart-item-qty{
+  grid-area: qty;
+}
+
+.cart-item-price{
+  grid-area: price;
+}
+
+.cart-thumb-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .qty-stepper {

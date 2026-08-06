@@ -30,7 +30,7 @@ export default function Cart() {
           }
         />
       ) : (
-        <div className="grid grid-2" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}>
+        <div className="cart-layout"> {/*className="grid grid-2" style={{ gridTemplateColumns: "2fr 1fr", alignItems: "start" }}*/}
           <div className="card">
             {items.map((item) => (
               <CartItemRow key={item.productId} item={item} />
