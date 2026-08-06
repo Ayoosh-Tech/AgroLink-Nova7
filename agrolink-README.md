@@ -51,3 +51,8 @@ reference, the data model, and deployment steps.
 | Admin | *****@agrolink.com | ******** |
 | Farmer | *****@agrolink.com | ******** |
 | Buyer | *****@agrolink.com | ******** |
+
+
+## Authentication
+Users can register as a Buyer or Farmer using the registration page and log in with their 
+credentials. An Admin account is available for administrative functions. 
